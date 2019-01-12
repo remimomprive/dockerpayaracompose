@@ -1,19 +1,22 @@
 version: '2'
 services:
     payara-full:
-        build: mypayara-full
+        image: payara-config:latest
         ports:
             - "8080:8080"
             - "4848:4848"
-        entrypoint:
-            - /opt/payara5/bin/asadmin
-            - start-domain
-            - -v
-        volumes:
-            - ./data/payara:/opt/payara5/glassfish/domains/domain1/autodeploy
         depends_on:
             - db
-
+        environment:
+            POSTGRES_PASSWORD: glassfishdbpassword
+            POSTGRES_USER: glassfish
+            POSTGRES_PORT: 5432
+            POSTGRES_HOST: db
+            POSTGRES_DATABASE: glassfish
+            POSTGRES_POOL_NAME: postgres-pool
+            APP_VERSION: 1.0.0-devMax-9
+            APP_SHORT_NAME: project-room-rest
+            PROJECT_DOWNLOAD_PATH: https://dl.bintray.com/maxrem/project-m2-room/fr/univtln/maxrem/projectroom
     db:
         image: postgres
         ports:
@@ -22,5 +25,3 @@ services:
             POSTGRES_PASSWORD: glassfishdbpassword
             POSTGRES_USER: glassfish
             PGDATA: /var/lib/postgresql/data/pgdata
-        #volumes:
-        #    - ./data/pgdata:/var/lib/postgresql/data/pgdata
