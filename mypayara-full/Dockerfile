@@ -22,7 +22,7 @@ ENV PROJECT_DOWNLOAD_PATH $PROJECT_DOWNLOAD_PATH
 
 RUN ${PAYARA_PATH}/generate_deploy_commands.sh
 RUN ${DEPLOY_COMMANDS}
-RUN  wget https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar -O /opt/payara5/glassfish/domains/domain1/lib/postgresql.jar
+RUN wget https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar -O /opt/payara5/glassfish/domains/domain1/lib/postgresql.jar
 RUN wget ${PROJECT_DOWNLOAD_PATH}/${APP_SHORT_NAME}/${APP_VERSION}/${APP_SHORT_NAME}-${APP_VERSION}.war -O /opt/payara5/glassfish/domains/domain1/autodeploy/app.war
 
 ENTRYPOINT echo 'set-hazelcast-configuration --enabled=true --dynamic=true' >> mycommands.asadmin && \
